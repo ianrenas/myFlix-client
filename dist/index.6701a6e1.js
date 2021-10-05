@@ -946,13 +946,12 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactDom = require("react-dom");
 var _reactDomDefault = parcelHelpers.interopDefault(_reactDom);
 var _mainView = require("./components/main-view/main-view");
-var _mainViewDefault = parcelHelpers.interopDefault(_mainView);
 // Import statement to indicate that you need to bundle `./index.scss`
 var _indexScss = require("./index.scss");
 // Main component (will eventually use all the others)
 class MyFlixApplication extends _reactDefault.default.Component {
     render() {
-        return(/*#__PURE__*/ _jsxRuntime.jsx(_mainViewDefault.default, {
+        return(/*#__PURE__*/ _jsxRuntime.jsx(_mainView.MainView, {
             __source: {
                 fileName: "src/index.jsx",
                 lineNumber: 12
