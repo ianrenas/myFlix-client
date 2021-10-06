@@ -22753,7 +22753,7 @@ class MainView extends _reactDefault.default.Component {
                     _id: 1,
                     Title: 'Inception',
                     Description: 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster.',
-                    ImagePath: 'https://www.imdb.com/title/tt1375666/mediaviewer/rm3426651392/?ref_=tt_ov_i'
+                    ImagePath: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg'
                 },
                 {
                     _id: 2,
