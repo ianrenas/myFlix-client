@@ -26,7 +26,7 @@ export class MovieView extends React.Component {
   }
 }
 
-MovieCard.propTypes = {
+MovieView.propTypes = {
   movie: PropTypes.shape({
     Title: PropTypes.string.isRequired,
     Description: PropTypes.string.isRequired,
