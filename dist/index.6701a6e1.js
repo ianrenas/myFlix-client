@@ -22751,7 +22751,6 @@ var _registrationView = require("../registration-view/registration-view");
 class MainView extends _reactDefault.default.Component {
     constructor(){
         super();
-        // Initial state is set to null
         this.state = {
             movies: [],
             selectedMovie: null,
@@ -22759,7 +22758,14 @@ class MainView extends _reactDefault.default.Component {
         };
     }
     componentDidMount() {
-    /* ... */ }
+        _axiosDefault.default.get('https://myflix-api-00001.herokuapp.com/movies').then((response)=>{
+            this.setState({
+                movies: response.data
+            });
+        }).catch((error)=>{
+            console.log(error);
+        });
+    }
     /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/ setSelectedMovie(movie) {
         this.setState({
             selectedMovie: movie
@@ -22772,21 +22778,20 @@ class MainView extends _reactDefault.default.Component {
     }
     render() {
         const { movies , selectedMovie  } = this.state;
-        /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/ if (!user) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
-            onLoggedIn: (user)=>this.onLoggedIn(user)
-            ,
-            __source: {
-                fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 46
-            },
-            __self: this
-        }));
-        // Before the movies have been loaded
         if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 49
+                lineNumber: 53
+            },
+            __self: this
+        }));
+        if (!user) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
+            onLoggedIn: (user)=>this.onLoggedIn(user)
+            ,
+            __source: {
+                fileName: "src/components/main-view/main-view.jsx",
+                lineNumber: 55
             },
             __self: this
         }));
@@ -22794,7 +22799,7 @@ class MainView extends _reactDefault.default.Component {
             className: "main-view",
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 52
+                lineNumber: 58
             },
             __self: this,
             children: selectedMovie ? /*#__PURE__*/ _jsxRuntime.jsx(_movieView.MovieView, {
@@ -22804,7 +22809,7 @@ class MainView extends _reactDefault.default.Component {
                 },
                 __source: {
                     fileName: "src/components/main-view/main-view.jsx",
-                    lineNumber: 55
+                    lineNumber: 60
                 },
                 __self: this
             }) : movies.map((movie)=>/*#__PURE__*/ _jsxRuntime.jsx(_movieCard.MovieCard, {
@@ -22814,7 +22819,7 @@ class MainView extends _reactDefault.default.Component {
                     },
                     __source: {
                         fileName: "src/components/main-view/main-view.jsx",
-                        lineNumber: 57
+                        lineNumber: 62
                     },
                     __self: this
                 }, movie._id)
