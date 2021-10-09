@@ -22777,7 +22777,7 @@ class MainView extends _reactDefault.default.Component {
         });
     }
     render() {
-        const { movies , selectedMovie  } = this.state;
+        const { movies , user  } = this.state;
         if (movies.length === 0) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
             className: "main-view",
             __source: {
@@ -22787,7 +22787,7 @@ class MainView extends _reactDefault.default.Component {
             __self: this
         }));
         if (!user) return(/*#__PURE__*/ _jsxRuntime.jsx(_loginView.LoginView, {
-            onLoggedIn: (user)=>this.onLoggedIn(user)
+            onLoggedIn: (user1)=>this.onLoggedIn(user1)
             ,
             __source: {
                 fileName: "src/components/main-view/main-view.jsx",
@@ -25415,8 +25415,8 @@ var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _s = $RefreshSig$();
 function LoginView(props) {
     _s();
-    const [username, setUsername] = _react.useState('');
-    const [password, setPassword] = _react.useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const handleSubmit = (e)=>{
         e.preventDefault();
         console.log(username, password);
@@ -25511,10 +25511,10 @@ var _reactDefault = parcelHelpers.interopDefault(_react);
 var _s = $RefreshSig$();
 function RegistrationView(props) {
     _s();
-    const [username, setUsername] = _react.useState('');
-    const [password, setPassword] = _react.useState('');
-    const [email, setEmail] = _react.useState('');
-    const [birthdate, setBirthdate] = _react.useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [birthdate, setBirthdate] = useState('');
     const handleSubmit = (e)=>{
         e.preventDefault();
         console.log(username, password, email, birthdate);
