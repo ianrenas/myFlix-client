@@ -32,9 +32,9 @@ export class MainView extends React.Component {
 
   /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
 
-  setSelectedMovie(newSelectedmovie) {
+  setSelectedMovie(movie) {
     this.setState({
-      selectedMovie: newSelectedmovie
+      selectedMovie: movie
     });
   }
 
