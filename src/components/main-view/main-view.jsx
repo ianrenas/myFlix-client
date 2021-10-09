@@ -48,7 +48,7 @@ export class MainView extends React.Component {
 
 
   render() {
-    const { movies, selectedMovie } = this.state;
+    const { movies, user } = this.state;
 
     if (movies.length === 0) return <div className="main-view" />;
 
