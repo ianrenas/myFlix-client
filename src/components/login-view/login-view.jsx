@@ -1,5 +1,5 @@
-import React from 'react';
-import axios from "axios";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 export function LoginView(props) {
   const [username, setUsername] = useState('');
@@ -27,3 +27,12 @@ export function LoginView(props) {
     </form>
   );
 }
+
+LoginView.propTypes = {
+  movie: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired
+
+  }).isRequired,
+  onMovieClick: PropTypes.func.isRequired
+};
