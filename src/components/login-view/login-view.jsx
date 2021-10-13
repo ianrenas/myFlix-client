@@ -29,10 +29,10 @@ export function LoginView(props) {
 }
 
 LoginView.propTypes = {
-  movie: PropTypes.shape({
+  login: PropTypes.shape({
     username: PropTypes.string.isRequired,
     password: PropTypes.string.isRequired
 
   }).isRequired,
-  onMovieClick: PropTypes.func.isRequired
+  onLoggedIn: PropTypes.func.isRequired
 };
