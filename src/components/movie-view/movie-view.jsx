@@ -50,7 +50,7 @@ MovieView.propTypes = {
     Description: PropTypes.string.isRequired,
     ImagePath: PropTypes.string.isRequired,
     Genre: PropTypes.shape({
-      Title: PropTypes.string.isRequired,
+      Name: PropTypes.string.isRequired,
       Description: PropTypes.string.isRequired
     }),
     Director: PropTypes.shape({
