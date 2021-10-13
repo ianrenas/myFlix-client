@@ -1,8 +1,9 @@
+// myFlix-client/src/main-view/main-view.jsx
 import React from 'react';
 import axios from 'axios';
 
-import { RegistrationView } from '../registration-view/registration-view';
 import { LoginView } from '../login-view/login-view';
+import { RegistrationView } from '../registration-view/registration-view';
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
@@ -29,8 +30,6 @@ export class MainView extends React.Component {
         console.log(error);
       });
   }
-
-
 
   /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
 
