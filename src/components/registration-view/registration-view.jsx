@@ -1,51 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-
-
 export function RegistrationView(props) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [birthdate, setBirthdate] = useState('');
+  const [Username, setUsername] = useState('');
+  const [Password, setPassword] = useState('');
+  const [Email, setEmail] = useState('');
+  const [Birthday, setBirthday] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password, email, birthdate);
-    /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.onRegister(username);
+    console.log(Username, Password, Email, Birthday);
+    props.onRegister(Username);
   };
 
   return (
     <form>
       <label>
         Username:
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+        <input type='text' value={Username} onChange={e => setUsername(e.target.value)} />
       </label>
       <label>
         Password:
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+        <input type='password' value={Password} onChange={e => setPassword(e.target.value)} />
+
       </label>
       <label>
         Email:
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
+        <input type='email' value={Email} onChange={e => setEmail(e.target.value)} />
+
       </label>
       <label>
-        Birthdate:
-        <input type="date" value={birthdate} onChange={e => setBirthdate(e.target.value)} />
+        Birthday:
+        <input type='date' value={Birthday} onChange={e => setBirthday(e.target.value)} />
+
       </label>
-      <button type="submit" onClick={handleSubmit}>Submit</button>
+      <button type='submit' onClick={handleSubmit}>Register</button>
     </form>
   );
 }
 
 RegistrationView.propTypes = {
-  movie: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    birthdate: PropTypes.string.isRequired
-  }).isRequired,
-  onMovieClick: PropTypes.func.isRequired
+  register: PropTypes.shape({
+    Username: PropTypes.string.isRequired,
+    Password: PropTypes.string.isRequired,
+    Email: PropTypes.string.isRequired,
+    Birthday: PropTypes.string.isRequired
+  }),
+  onRegister: PropTypes.func.isRequired
 };
