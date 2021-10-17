@@ -10,13 +10,23 @@ export function LoginView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
-    // Send a request to the server for authentication, then call props.onLoggedIn(username)
-    props.onLoggedIn(username);
+    /* Send a request to the server for authentication */
+    axios.post('https://myflix-api-00001.herokuapp.com/login', {
+      Username: username,
+      Password: password
+    })
+      .then(response => {
+        const data = response.data;
+        props.onLoggedIn(data);
+      })
+      .catch(e => {
+        console.log('no such user')
+      });
   };
 
 
   return (
+<<<<<<< HEAD
     <Container>
       <Row>
         <Col>
@@ -45,8 +55,33 @@ export function LoginView(props) {
         </Col>
       </Row>
     </Container>
+=======
+    <Form>
+      <Form.Group controlId="formUsername">
+        <Form.Label>Username:</Form.Label>
+<<<<<<< Updated upstream
+        <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
+=======
+        <Form.Control type="text" placeholder="Enter Username" onChange={e => setUsername(e.target.value)} />
+>>>>>>> Stashed changes
+      </Form.Group>
+
+      <Form.Group controlId="formPassword">
+        <Form.Label>Password:</Form.Label>
+<<<<<<< Updated upstream
+        <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
+=======
+        <Form.Control type="password" placeholder="Enter Password" onChange={e => setPassword(e.target.value)} />
+>>>>>>> Stashed changes
+      </Form.Group>
+      <Button variant="primary" type="submit" onClick={handleSubmit}>
+        Submit
+      </Button>
+    </Form>
+>>>>>>> main
   );
 }
+
 
 LoginView.propTypes = {
   login: PropTypes.shape({
