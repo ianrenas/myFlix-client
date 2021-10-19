@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
+
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import { Link } from "react-router-dom";
 import './login-view.scss';
 
 export function LoginView(props) {
@@ -24,70 +27,37 @@ export function LoginView(props) {
       });
   };
 
-
   return (
-<<<<<<< HEAD
-    <Container>
-      <Row>
-        <Col>
-          <CardGroup>
-            <Card>
-              <Card.Body>
-                <Card.Title>Please Log In</Card.Title>
-                <Form>
-                  <Form.Group controlId="formUsername">
-                    <Form.Label>Username:</Form.Label>
-                    <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
-                  </Form.Group>
+    <div className="login">
+      <Form>
+        <Form.Group controlId="formUsername">
+          <Form.Label>Username:</Form.Label>
+          <Form.Control type="text" value={username} onChange={e => setUsername(e.target.value)} />
+        </Form.Group>
 
-                  <Form.Group controlId="formPassword">
-                    <Form.Label>Password:</Form.Label>
-                    <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
-                  </Form.Group>
-
-                  <Button variant="primary" type="submit" onClick={handleSubmit}>
-                    Submit
-                  </Button>
-                </Form>
-              </Card.Body>
-            </Card>
-          </CardGroup>
-        </Col>
-      </Row>
-    </Container>
-=======
-    <Form>
-      <Form.Group controlId="formUsername">
-        <Form.Label>Username:</Form.Label>
-<<<<<<< Updated upstream
-        <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
-=======
-        <Form.Control type="text" placeholder="Enter Username" onChange={e => setUsername(e.target.value)} />
->>>>>>> Stashed changes
-      </Form.Group>
-
-      <Form.Group controlId="formPassword">
-        <Form.Label>Password:</Form.Label>
-<<<<<<< Updated upstream
-        <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
-=======
-        <Form.Control type="password" placeholder="Enter Password" onChange={e => setPassword(e.target.value)} />
->>>>>>> Stashed changes
-      </Form.Group>
-      <Button variant="primary" type="submit" onClick={handleSubmit}>
-        Submit
-      </Button>
-    </Form>
->>>>>>> main
+        <Form.Group controlId="formPassword">
+          <Form.Label>Password:</Form.Label>
+          <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} />
+          <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Please provide your password</Form.Control.Feedback>
+        </Form.Group>
+        <span>
+          <Button variant="primary" type="submit" onClick={handleSubmit}>Log in</Button>
+          {' '}
+          <Link to={`/register`}>
+            <Button variant="success link">Register</Button>
+          </Link>
+        </span>
+      </Form>
+    </div>
   );
 }
 
 
 LoginView.propTypes = {
-  login: PropTypes.shape({
+  user: PropTypes.shape({
     username: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired
-
-  }).isRequired,
+    password: PropTypes.string.isRequired,
+  }),
   onLoggedIn: PropTypes.func.isRequired
 };
