@@ -1,29 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 import './movie-card.scss';
+
+import { Link } from "react-router-dom";
+
 
 export class MovieCard extends React.Component {
   render() {
-    const { movie, onMovieClick } = this.props;
+    const { movie } = this.props;
 
     return (
-      <Container>
-        <Row>
-          <Col>
-            <CardGroup>
-              <Card>
-                <Card.Img variant="top" src={movie.ImagePath} />
-                <Card.Body>
-                  <Card.Title>{movie.Title}</Card.Title>
-                  <Card.Text>{movie.Description}</Card.Text>
-                  <Button onClick={() => onMovieClick(movie)} variant="link">Open</Button>
-                </Card.Body>
-              </Card>
-            </CardGroup>
-          </Col>
-        </Row>
-      </Container>
+      <Card bg='secondary' text='white'>
+        <Link to={`/movies/${movie._id}`}>
+          <Card.Img className="image-container" variant="top" src={movie.ImageURL} />
+        </Link>
+        <Card.Body>
+          <Card.Title><h4>{movie.Title}</h4></Card.Title>
+          <Card.Text>{movie.Description}</Card.Text>
+          <Link to={`/movies/${movie._id}`}>
+            <Button variant="primary">Open</Button>
+          </Link>
+        </Card.Body>
+      </Card>
     );
   }
 }
@@ -32,15 +32,7 @@ MovieCard.propTypes = {
   movie: PropTypes.shape({
     Title: PropTypes.string.isRequired,
     Description: PropTypes.string.isRequired,
-    ImagePath: PropTypes.string.isRequired,
-    Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string.isRequired
-    }),
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Bio: PropTypes.string.isRequired
-    }),
+    ImageURL: PropTypes.string.isRequired,
+    Featured: PropTypes.bool.isRequired,
   }).isRequired,
-  onMovieClick: PropTypes.func.isRequired
 };
