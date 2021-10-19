@@ -23227,7 +23227,7 @@ class MovieCard extends _reactDefault.default.Component {
                     children: /*#__PURE__*/ _jsxRuntime.jsx(_cardDefault.default.Img, {
                         className: "image-container",
                         variant: "top",
-                        src: movie.ImageURL,
+                        src: movie.ImagePath,
                         __source: {
                             fileName: "src/components/movie-card/movie-card.jsx",
                             lineNumber: 17
@@ -23292,7 +23292,7 @@ MovieCard.propTypes = {
     movie: _propTypesDefault.default.shape({
         Title: _propTypesDefault.default.string.isRequired,
         Description: _propTypesDefault.default.string.isRequired,
-        ImageURL: _propTypesDefault.default.string.isRequired,
+        ImagePath: _propTypesDefault.default.string.isRequired,
         Featured: _propTypesDefault.default.bool.isRequired
     }).isRequired
 };
@@ -26818,7 +26818,7 @@ class MovieView extends _reactDefault.default.Component {
                     },
                     __self: this,
                     children: /*#__PURE__*/ _jsxRuntime.jsx("img", {
-                        src: movie.ImageURL,
+                        src: movie.ImagePath,
                         __source: {
                             fileName: "src/components/movie-view/movie-view.jsx",
                             lineNumber: 44
@@ -26980,7 +26980,7 @@ MovieView.propTypes = {
     movie: _propTypesDefault.default.shape({
         Title: _propTypesDefault.default.string.isRequired,
         Description: _propTypesDefault.default.string.isRequired,
-        ImageURL: _propTypesDefault.default.string.isRequired,
+        ImagePath: _propTypesDefault.default.string.isRequired,
         Featured: _propTypesDefault.default.bool,
         Genre: _propTypesDefault.default.shape({
             Name: _propTypesDefault.default.string.isRequired
