@@ -1,30 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
-import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import Badge from 'react-bootstrap/Badge';
 
 
 export class MovieView extends React.Component {
-
-  keypressCallback(event) {
-    console.log(event.key);
-  }
-
-  componentDidMount() {
-    document.addEventListener('keypress', this.keypressCallback);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keypress', this.keypressCallback);
-  }
 
   addFavorite() {
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('user');
 
-    axios.post(`https://myflix-api-00001.herokuapp.com/users/${username}/movies/${this.props.movie._id}`, {}, {
+    axios.post(`https:myflix-api-00001.herokuapp.com/users/${username}/movies/${this.props.movie._id}`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(response => {
@@ -41,7 +30,7 @@ export class MovieView extends React.Component {
     return (
       <div className="movie-view">
         <div className="movie-poster">
-          <img src={movie.ImagePath} />
+          <img src={movie.ImageURL} />
         </div>
         <div className="movie-title">
           <h1>
@@ -78,8 +67,8 @@ MovieView.propTypes = {
   movie: PropTypes.shape({
     Title: PropTypes.string.isRequired,
     Description: PropTypes.string.isRequired,
-    ImagePath: PropTypes.string.isRequired,
-    Featured: PropTypes.bool,
+    ImageURL: PropTypes.string.isRequired,
+    Featured: PropTypes.bool.isRequired,
     Genre: PropTypes.shape({
       Name: PropTypes.string.isRequired
     }),
