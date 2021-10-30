@@ -8,6 +8,7 @@ export class GenreView extends React.Component {
 
   render() {
     const { movie, onBackClick } = this.props;
+    console.log(movie);
 
     return (
       <div className="genre-view">
@@ -35,6 +36,3 @@ GenreView.propTypes = {
     Description: propTypes.string.isRequired
   }).isRequired
 };
-
-
-export default GenreView;
