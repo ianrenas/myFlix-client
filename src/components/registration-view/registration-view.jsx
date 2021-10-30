@@ -1,35 +1,38 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/row';
 import { Link } from "react-router-dom";
-
 
 import './registration-view.scss';
 
 export function RegistrationView(props) {
+
+  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [birthdate, setBirthdate] = useState("");
 
-
+  const [nameError, setNameError] = useState({});
   const [usernameError, setUsernameError] = useState({});
   const [passwordError, setPasswordError] = useState({});
   const [emailError, setEmailError] = useState({});
-  const [birthdayError, setBirthdayError] = useState({});
+  const [birthdateError, setBirthdateError] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let setisValid = formValidation();
     if (setisValid) {
-      axios.post('https://myflix-api-00001.herokuapp.com/users', {
+      axios.post('https://myflix-api-00001.herokuapp.com/users/registration', {
+        Name: name,
         Username: username,
         Password: password,
         Email: email,
-        Birthday: birthday
+        Birthdate: birthdate
       })
         .then(response => {
           const data = response.data;
@@ -43,12 +46,17 @@ export function RegistrationView(props) {
   }
 
   const formValidation = () => {
+    let nameError = {};
     let usernameError = {};
     let passwordError = {};
     let emailError = {};
-    let birthdayError = {};
+    let birthdateError = {};
     let isValid = true;
 
+    if (name === '') {
+      nameError.nameEmpty = "Please enter your Name.";
+      isValid = false;
+    }
     if (username.trim().length < 4) {
       usernameError.usernameShort = "Username incorrect. Use at least 4 characters.";
       isValid = false;
@@ -61,19 +69,34 @@ export function RegistrationView(props) {
       emailError.emailNotEmail = "Email address incorrect.";
       isValid = false;
     }
-    if (birthday === '') {
-      birthdayError.birthdayEmpty = "Please enter your birthday.";
+    if (birthdate === '') {
+      birthdateError.birthdateEmpty = "Please enter your birthdate.";
       isValid = false;
     }
+    setNameError(nameError);
     setUsernameError(usernameError);
     setPasswordError(passwordError);
     setEmailError(emailError);
-    setBirthdayError(birthdayError);
+    setBirthdateError(birthdateError);
     return isValid;
   };
 
   return (
     <Form className="register justify-content-md-center">
+      <Row>
+        <Form.Group controlId="formName">
+          <Form.Label>Name:</Form.Label>
+          <Form.Control type="text" value={name} onChange={e => setName(e.target.value)} />
+          {Object.keys(nameError).map((key) => {
+            return (
+              <div key={key}>
+                {nameError[key]}
+              </div>
+            );
+          })}
+        </Form.Group>
+      </Row>
+
       <Form.Group controlId="formUsername">
         <Form.Label>Username:</Form.Label>
         <Form.Control type="text" value={username} onChange={e => setUsername(e.target.value)} />
@@ -114,13 +137,13 @@ export function RegistrationView(props) {
         </Form.Group>
       </Row>
 
-      <Form.Group controlId="formBirthday">
-        <Form.Label>Birthday:</Form.Label>
-        <Form.Control type="date" value={birthday} onChange={e => setBirthday(e.target.value)} />
-        {Object.keys(birthdayError).map((key) => {
+      <Form.Group controlId="formBirthdate">
+        <Form.Label>Birthdate:</Form.Label>
+        <Form.Control type="date" value={birthdate} onChange={e => setBirthdate(e.target.value)} />
+        {Object.keys(birthdateError).map((key) => {
           return (
             <div key={key}>
-              {birthdayError[key]}
+              {birthdateError[key]}
             </div>
           );
         })}
@@ -139,9 +162,10 @@ export function RegistrationView(props) {
 
 RegistrationView.propTypes = {
   register: PropTypes.shape({
+    Name: PropTypes.string.isRequired,
     Username: PropTypes.string.isRequired,
     Password: PropTypes.string.isRequired,
     Email: PropTypes.string.isRequired,
-    Birthday: PropTypes.string.isRequired
+    BirthDate: PropTypes.string.isRequired
   }),
 };
