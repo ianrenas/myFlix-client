@@ -1,137 +1,204 @@
-import axios from 'axios';
+// main-view.jsx
 import React from 'react';
+import axios from 'axios';// Using it to fetch the movies, then set the state of movies using this.setState
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import { LoginView } from '../login-view/login-view';
-import { MovieCard } from '../movie-card/movie-card';
+import { connect } from 'react-redux';
+
+// #0
+import { setMovies } from '../../actions/actions';
+
+// we haven't written this one yet
+import MoviesList from '../movies-list/movies-list';
+
+//#1 The rest of components import statements but without the MovieCard's 
+//because it will be imported and used in the MoviesList component rather than in here. 
 import { MovieView } from '../movie-view/movie-view';
+import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Navbar from 'react-bootstrap/Navbar'
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import './main-view.scss'
+import { DirectorView } from '../director-view/director-view';
+import { GenreView } from '../genre-view/genre-view';
+import { ProfileView } from '../profile-view/profile-view';
 
 
-export class MainView extends React.Component {
+import NavBar from '../navbar-view/navbar-view'
+
+
+// SCSS Styling import
+import './main-view.scss';
+
+
+// #2 export keyword removed from here
+class MainView extends React.Component {
 
   constructor() {
     super();
+
+    // #3 movies state removed from here
     this.state = {
-      movies: [],
-      selectedMovie: null,
-      user: null,
-      register: null
+      user: null
     };
   }
 
-
   componentDidMount() {
-    axios.get('https://myflix-api-00001.herokuapp.com/movies')
-      .then(response => {
-        this.setState({
-          movies: response.data
-        });
-      })
-      .catch(error => {
-        console.log(error);
+    let accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user')
       });
+      this.getMovies(accessToken);
+    }
   }
 
-  setSelectedMovie(movie) {
+  onLoggedOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.setState({
-      selectedMovie: movie
+      user: null
     });
   }
 
-  onRegister(register) {
-    this.setState({
-      register
-    });
-  }
-
+  // Log In
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
       user: authData.user.Username
     });
 
+
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
   }
 
+  // Getting all movies in Database
   getMovies(token) {
     axios.get('https://myflix-api-00001.herokuapp.com/movies', {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` }//By passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API
     })
       .then(response => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data
-        });
+
+        // #4
+        this.props.setMovies(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  render() {
-
-    const { movies, selectedMovie, user, register } = this.state;
-
-    if (!register) return <RegistrationView onRegister={register => this.onRegister(register)} />
-
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
-
-
-    if (movies.length === 0) return <div className="main-view"></div>;
-
-    return (
-
-      <div className="main-view">
-        <Navbar bg="light" expand="lg">
-          <Container>
-            <Navbar.Brand href="#home">MyFlix</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="me-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link href="#link">Link</Nav.Link>
-                <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                </NavDropdown>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-
-
-        {selectedMovie
-          ? (
-            <Row className="justify-content-lg-center">
-              <Col lg={9} md={6}>
-                <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
-              </Col>
-            </Row>
-          )
-          : (
-            <Row className="justify-content-center">
-              {movies.map(movie => (
-                <Col lg={3} md={4} sm={6} xs={8}>
-                  <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
-                </Col>
-              ))}
-            </Row>
-          )
-        }
-      </div>
-    );
+  //  Getting user recent data from Database
+  getUsers(token) {
+    axios.post('https://myflix-api-00001.herokuapp.com/users', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {
+        //same code as above
+        this.props.setUsers(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
+  //When a new user is registered  
+  onRegister(register) {
+    this.setState({
+      register: register,
+    });
+  }
+
+  render() {
+
+    // #5 movies is extracted from this.props rather than from the this.state
+    let { movies } = this.props;
+    let { user } = this.state;
+
+    return (
+      <Router>
+        <NavBar user={user} />
+
+        <Row className="main-view justify-content-md-center">
+
+          <Route exact path="/" render={() => {
+            if (!user)
+              return <Col>
+                <LoginView onLoggedIn={user =>
+                  this.onLoggedIn(user)} />
+              </Col>
+            if (movies.length === 0) return <div className="main-view" />;
+            return <MoviesList movies={movies} />;
+          }} />
+
+          <Route path="/register" render={() => {
+            if (user) return <Redirect to="/" />
+            return <Col>
+              <RegistrationView />
+            </Col>
+          }} />
+          <Route path="/profile" render={() => {
+            if (!user) return <Col>
+              <ProfileView />
+            </Col>
+          }} />
+          <Route path="/movies/:movieId" render={({ match, history }) => {
+            if (!user) return <Col>
+              <LoginView onLoggedIn={user =>
+                this.onLoggedIn(user)} />
+            </Col>
+            if (movies.length === 0) return <div className="main-view" />;
+            return <Col md={8}>
+              <MovieView movie={movies.find(m =>
+                m._id === match.params.movieId)} onBackClick={() =>
+                  history.goBack()} />
+            </Col>
+          }} />
+          <Route path="/directors/:name" render={({ match, history }) => {
+            if (!user) return <Col>
+              <LoginView onLoggedIn={user =>
+                this.onLoggedIn(user)} />
+            </Col>
+            if (movies.length === 0) return <div className="main-view" />;
+            return <Col md={8}>
+              <DirectorView director={movies.find(m =>
+                m.Director.Name === match.params.name).Director} onBackClick={() =>
+                  history.goBack()} />
+            </Col>
+          }
+          } />
+          <Route path="/genres/:name" render={({ match, history }) => {
+            if (!user) return <Col>
+              <LoginView onLoggedIn={user =>
+                this.onLoggedIn(user)} />
+            </Col>
+            if (movies.length === 0) return <div className="main-view" />;
+            return <Col md={8}>
+              <GenreView genre={movies.find(m =>
+                m.Genre.Name === match.params.name).Genre} onBackClick={() =>
+                  history.goBack()} />
+            </Col>
+          }} />
+
+          <Route exact path='/users/:username' render={({ history }) => {
+            if (!user) return <LoginView onLoggedIn={(data) =>
+              this.onLoggedIn(data)} />;
+            if (movies.length === 0) return;
+            return <ProfileView history={history} movies={movies} />
+          }} />
+
+        </Row>
+      </Router>
+    );
+  }
+};
+
+
+// #7
+let mapStateToProps = state => {
+  return { movies: state.movies }
 }
+
+// #8
+export default connect(mapStateToProps, { setMovies })(MainView);
